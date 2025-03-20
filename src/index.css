@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 52, 144, 220;
+    --color-secondary: 99, 102, 241;
+    --color-accent: 245, 158, 11;
+  }
+
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen text-gray-100;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/80;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary/80;
+  }
+  
+  .btn-outline {
+    @apply border border-base-content/20 hover:bg-base-content/10;
+  }
+  
+  .btn-accent {
+    @apply bg-accent text-white hover:bg-accent/80;
+  }
+  
+  .card {
+    @apply rounded-xl overflow-hidden;
+  }
+  
+  .card-body {
+    @apply p-6;
+  }
+  
+  .card-hover {
+    @apply hover:border-primary/50 hover:scale-[1.01] hover:shadow-glow;
+  }
+  
+  .chatbot-bubble {
+    @apply p-4 rounded-lg max-w-[80%];
+  }
+  
+  .chatbot-user {
+    @apply bg-primary/20 text-base-content ml-auto border border-primary/30 shadow-md;
+  }
+  
+  .chatbot-bot {
+    @apply bg-secondary/20 text-base-content mr-auto border border-secondary/30 shadow-md;
+  }
+  
+  .input {
+    @apply px-4 py-2 rounded-lg bg-gray-900/50 border border-gray-700 
+           focus:border-primary focus:ring-1 focus:ring-primary 
+           text-white placeholder-gray-400 
+           transition-colors duration-200;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+} 
