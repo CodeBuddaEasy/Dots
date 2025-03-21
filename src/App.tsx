@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Background3D from './components/common/Background3D';
 import LandingPage from './components/LandingPage';
 import MainDashboard from './components/dashboard/MainDashboard';

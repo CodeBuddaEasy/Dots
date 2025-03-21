@@ -27,6 +27,19 @@ export default defineConfig(({ mode }) => {
   
   return {
     plugins: [react()],
+    base: './', // Set base path for GitHub Pages
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
+      // Avoid clearing the output directory
+      emptyOutDir: true,
+      // Generate relative paths in the build output
+      rollupOptions: {
+        output: {
+          manualChunks: undefined,
+        },
+      },
+    },
     define: {
       // Make the VITE_OPENAI_API_KEY explicitly available
       'import.meta.env.VITE_OPENAI_API_KEY': JSON.stringify(env.VITE_OPENAI_API_KEY || ''),

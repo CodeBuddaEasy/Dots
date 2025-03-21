@@ -2,18 +2,11 @@
  * Utility to manually load environment variables
  */
 
-interface ImportMetaEnv {
-  VITE_OPENAI_API_KEY: string;
-  VITE_SUPABASE_URL: string;
-  VITE_SUPABASE_ANON_KEY: string;
-  VITE_AI_PERSONALITY_CONFIG: string;
-  VITE_PROGRESSION_SYSTEM_CONFIG: string;
-}
-
+// Using the ImportMetaEnv interface from vite-env.d.ts
 type EnvKeys = keyof ImportMetaEnv;
 type WindowEnvKeys = { [K in EnvKeys as `ENV_${K}`]: string };
 
-// Extend the global Window interface
+// Only declare the Window extension here
 declare global {
   interface Window extends WindowEnvKeys {}
 }
@@ -26,7 +19,7 @@ export const loadEnvVariables = () => {
   console.log('Loading Dots platform environment configuration...');
   
   // Define fallback values for critical variables
-  const fallbacks: ImportMetaEnv = {
+  const fallbacks = {
     VITE_OPENAI_API_KEY: 'YOUR_OPENAI_API_KEY_HERE',
     VITE_SUPABASE_URL: 'YOUR_SUPABASE_URL_HERE',
     VITE_SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY_HERE',
@@ -40,13 +33,13 @@ export const loadEnvVariables = () => {
       experienceMultiplier: 1.5,
       achievementCategories: ['Skills', 'Impact', 'Collaboration', 'Innovation']
     })
-  };
+  } as const;
   
   // Check if environment variables are set in import.meta.env
   console.log('Initializing Dots platform configuration...');
   for (const [key, value] of Object.entries(fallbacks)) {
-    const envKey = key as keyof ImportMetaEnv;
-    const currentValue = (import.meta.env as Partial<ImportMetaEnv>)[envKey];
+    const envKey = key as EnvKeys;
+    const currentValue = import.meta.env[envKey];
     console.log(`${key}: ${currentValue ? 'Configured' : 'Using default configuration'}`);
     
     // If missing, set the fallback value
@@ -56,7 +49,7 @@ export const loadEnvVariables = () => {
       
       // Attempt to patch import.meta.env
       try {
-        (import.meta.env as Partial<ImportMetaEnv>)[envKey] = value;
+        (import.meta.env as any)[envKey] = value;
       } catch (e) {
         console.error(`Configuration error: Could not set ${key} in environment`);
       }
@@ -75,9 +68,9 @@ export const loadEnvVariables = () => {
 };
 
 // Type-safe environment variable getter
-export const getEnvVar = <T extends keyof ImportMetaEnv>(key: T): string => {
+export const getEnvVar = <T extends EnvKeys>(key: T): string => {
   // Try getting from import.meta.env first
-  const metaValue = (import.meta.env as Partial<ImportMetaEnv>)[key];
+  const metaValue = import.meta.env[key];
   if (metaValue) return metaValue;
   
   // Try getting from our loaded values
